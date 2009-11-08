@@ -17,7 +17,7 @@
  * 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA                 *
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package org.codehaus.mojo.jflex;
+package de.jflex.plugin.maven;
 
 import java.io.File;
 
@@ -32,6 +32,7 @@ public class JFlexMojoTest extends AbstractMojoTestCase {
 	/**
 	 * @see org.apache.maven.plugin.testing.AbstractMojoTestCase#setUp()
 	 */
+	@Override
 	protected void setUp() throws Exception {
 		// required for mojo lookups to work
 		super.setUp();
@@ -40,6 +41,7 @@ public class JFlexMojoTest extends AbstractMojoTestCase {
 	/**
 	 * @see org.codehaus.plexus.PlexusTestCase#tearDown()
 	 */
+	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
@@ -96,8 +98,8 @@ public class JFlexMojoTest extends AbstractMojoTestCase {
 		 * terminator. For this reason, the generated output will be longer on a
 		 * Windows platform ("\r\n") than on a Unix platform ("\n").
 		 */
-		boolean correctSize = (size > 26624) && (size < 28672);
-		assertTrue("size of produced file between 26k and 28k. Actual is "
+		boolean correctSize = (size > 26624) && (size < 29696);
+		assertTrue("size of produced file between 26k and 29k. Actual is "
 				+ size, correctSize);
 	}
 

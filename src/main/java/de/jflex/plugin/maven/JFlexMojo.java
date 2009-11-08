@@ -17,7 +17,7 @@
  * 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA                 *
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-package org.codehaus.mojo.jflex;
+package de.jflex.plugin.maven;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,8 +33,8 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 
-import JFlex.Main;
-import JFlex.Options;
+import jflex.Main;
+import jflex.Options;
 
 /**
  * Generates lexical scanners from one or more <a href="http://jflex.de/">JFlex</a>
@@ -125,7 +125,7 @@ public class JFlexMojo extends AbstractMojo {
 	 * 
 	 * @parameter default-value="pack"
 	 */
-	private String generationMethod = "pack";
+	private String generationMethod = "pack"; // NOPMD
 
 	/**
 	 * A flag whether to perform the DFA minimization step during scanner
@@ -133,7 +133,7 @@ public class JFlexMojo extends AbstractMojo {
 	 * 
 	 * @parameter default-value="true"
 	 */
-	private boolean minimize = true;
+	private boolean minimize = true; // NOPMD
 
 	/**
 	 * A flag whether to enable the generation of a backup copy if the generated
@@ -141,7 +141,7 @@ public class JFlexMojo extends AbstractMojo {
 	 * 
 	 * @parameter default-value="true"
 	 */
-	private boolean backup = true;
+	private boolean backup = true; // NOPMD
 
 	/**
 	 * Generate java parsers from lexer definition files.
@@ -149,6 +149,7 @@ public class JFlexMojo extends AbstractMojo {
 	 * This methods is checks parameters, sets options and calls
 	 * JFlex.Main.generate()
 	 */
+	@SuppressWarnings("unchecked")
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		this.outputDirectory = getAbsolutePath(this.outputDirectory);
 
@@ -156,7 +157,7 @@ public class JFlexMojo extends AbstractMojo {
 		// the whole point of this plugin compared to running the ant plugin
 		project.addCompileSourceRoot(outputDirectory.getPath());
 
-		List/*<File>*/ filesIt;
+		List<File> filesIt;
 		if (lexDefinitions != null) {
 			// use arguments provided in the plugin configuration
 			filesIt = Arrays.asList(lexDefinitions);
@@ -166,16 +167,16 @@ public class JFlexMojo extends AbstractMojo {
 		} else {
 			// use default lexfiles if none provided
 			getLog().debug("Use lexer files found in (default) " + SRC_MAIN_JFLEX);
-			filesIt = new ArrayList/*<File>*/();
+			filesIt = new ArrayList<File>();
 			File defaultDir = getAbsolutePath(new File(SRC_MAIN_JFLEX));
 			if (defaultDir.isDirectory()) {
 				filesIt.add(defaultDir);
 			}
 		}
 		// process all lexDefinitions
-		Iterator/*<File>*/ fileIterator = filesIt.iterator();
+		Iterator<File> fileIterator = filesIt.iterator();
 		while (fileIterator.hasNext()) {
-			File lexDefinition = (File) fileIterator.next();
+			File lexDefinition = fileIterator.next();
 			lexDefinition = getAbsolutePath(lexDefinition);
 
 			parseLexDefinition(lexDefinition);
@@ -194,18 +195,20 @@ public class JFlexMojo extends AbstractMojo {
 	 *             if the file is not found.
 	 * @throws MojoExecutionException
 	 */
+	@SuppressWarnings("unchecked")
 	private void parseLexDefinition(File lexDefinition)
 			throws MojoFailureException, MojoExecutionException {
+		assert lexDefinition.isAbsolute() : lexDefinition;
 
 		if (lexDefinition.isDirectory()) {
 			// recursively process files contained within
 			String[] extensions = { "jflex", "jlex", "lex", "flex" };
 			getLog().debug("Processing lexer files found in "
 					+ lexDefinition);
-			Iterator/*<File>*/ fileIterator = FileUtils.iterateFiles(lexDefinition,
+			Iterator<File> fileIterator = FileUtils.iterateFiles(lexDefinition,
 					extensions, true);
 			while (fileIterator.hasNext()) {
-				File lexFile = (File) fileIterator.next();
+				File lexFile = fileIterator.next();
 				parseLexFile(lexFile);
 			}
 		} else {
@@ -215,6 +218,7 @@ public class JFlexMojo extends AbstractMojo {
 
 	private void parseLexFile(File lexFile) throws MojoFailureException,
 			MojoExecutionException {
+		assert lexFile.isAbsolute() : lexFile;
 
 		getLog().debug("Generationg Java code from " + lexFile.getName());
 		ClassInfo classInfo = null;
@@ -225,7 +229,7 @@ public class JFlexMojo extends AbstractMojo {
 		} catch (IOException e3) {
 			classInfo = new ClassInfo();
 			classInfo.className = LexSimpleAnalyzer.DEFAULT_NAME;
-			classInfo.packageName = null;
+			classInfo.packageName = null; // NOPMD
 		}
 
 		checkParameters(lexFile);
@@ -254,8 +258,8 @@ public class JFlexMojo extends AbstractMojo {
 		}
 		Options.jlex = jlex;
 
-		Options.no_minimize = !minimize;
-		Options.no_backup = !backup;
+		Options.no_minimize = !minimize; // NOPMD
+		Options.no_backup = !backup;     // NOPMD
 		if ("switch".equals(generationMethod)) {
 			Options.gen_method = Options.SWITCH;
 		} else if ("table".equals(generationMethod)) {
@@ -290,6 +294,7 @@ public class JFlexMojo extends AbstractMojo {
 			throw new MojoExecutionException(
 					"<lexDefinition> is empty. Please define input file with <lexDefinition>input.jflex</lexDefinition>");
 		}
+		assert lexFile.isAbsolute() : lexFile;
 		if (!lexFile.isFile()) {
 			throw new MojoExecutionException("Input file does not exist: "
 					+ lexFile);

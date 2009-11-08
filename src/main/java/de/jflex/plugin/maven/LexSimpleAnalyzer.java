@@ -1,4 +1,4 @@
-package org.codehaus.mojo.jflex;
+package de.jflex.plugin.maven;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,6 +26,7 @@ public class LexSimpleAnalyzer {
 	 */
 	protected static ClassInfo guessPackageAndClass(File lexFile)
 			throws FileNotFoundException, IOException {
+		assert lexFile.isAbsolute() : lexFile;
 
 		LineNumberReader reader = new LineNumberReader(new FileReader(lexFile));
 
