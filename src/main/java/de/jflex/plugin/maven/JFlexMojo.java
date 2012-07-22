@@ -145,6 +145,11 @@ public class JFlexMojo extends AbstractMojo {
    */
   private boolean charAt = false;
 
+  /**
+   * @parameter default-value="false"
+   */
+  private boolean sliceAndCharAt = false;
+
 	/**
 	 * Generate java parsers from lexer definition files.
 	 * 
@@ -274,6 +279,7 @@ public class JFlexMojo extends AbstractMojo {
 		}
 
     JFlex.Options.char_at = charAt;
+    JFlex.Options.sliceAndCharAt = sliceAndCharAt;
 
 		try {
 			JFlex.Main.generate(lexFile);
