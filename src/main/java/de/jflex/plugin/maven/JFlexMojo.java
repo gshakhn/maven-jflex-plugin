@@ -19,6 +19,12 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 package de.jflex.plugin.maven;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.project.MavenProject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,15 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.project.MavenProject;
-
-import jflex.Main;
-import jflex.Options;
 
 /**
  * Generates lexical scanners from one or more <a href="http://jflex.de/">JFlex</a>
@@ -248,31 +245,31 @@ public class JFlexMojo extends AbstractMojo {
 		/*
 		 * set options. Very strange that JFlex expects this in a static way.
 		 */
-		Options.setDefaults();
-		Options.setDir(generatedFile.getParentFile());
-		Options.dump = verbose;
-		Options.verbose = verbose;
-		Options.dot = dot;
+		JFlex.Options.setDefaults();
+		JFlex.Options.setDir(generatedFile.getParentFile());
+		JFlex.Options.dump = verbose;
+		JFlex.Options.verbose = verbose;
+		JFlex.Options.dot = dot;
 		if (skeleton != null) {
-			Options.setSkeleton(skeleton);
+			JFlex.Options.setSkeleton(skeleton);
 		}
-		Options.jlex = jlex;
+		JFlex.Options.jlex = jlex;
 
-		Options.no_minimize = !minimize; // NOPMD
-		Options.no_backup = !backup;     // NOPMD
+		JFlex.Options.no_minimize = !minimize; // NOPMD
+		JFlex.Options.no_backup = !backup;     // NOPMD
 		if ("switch".equals(generationMethod)) {
-			Options.gen_method = Options.SWITCH;
+			JFlex.Options.gen_method = JFlex.Options.SWITCH;
 		} else if ("table".equals(generationMethod)) {
-			Options.gen_method = Options.TABLE;
+			JFlex.Options.gen_method = JFlex.Options.TABLE;
 		} else if ("pack".equals(generationMethod)) {
-			Options.gen_method = Options.PACK;
+			JFlex.Options.gen_method = JFlex.Options.PACK;
 		} else {
 			throw new MojoExecutionException("Illegal generation method: "
 					+ generationMethod);
 		}
 
 		try {
-			Main.generate(lexFile);
+			JFlex.Main.generate(lexFile);
 			getLog().info("  generated " + generatedFile);
 		} catch (Exception e) {
 			throw new MojoExecutionException(e.getMessage());
