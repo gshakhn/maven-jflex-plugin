@@ -140,6 +140,11 @@ public class JFlexMojo extends AbstractMojo {
 	 */
 	private boolean backup = true; // NOPMD
 
+  /**
+   * @parameter default-value="false"
+   */
+  private boolean charAt = false;
+
 	/**
 	 * Generate java parsers from lexer definition files.
 	 * 
@@ -267,6 +272,8 @@ public class JFlexMojo extends AbstractMojo {
 			throw new MojoExecutionException("Illegal generation method: "
 					+ generationMethod);
 		}
+
+    JFlex.Options.char_at = charAt;
 
 		try {
 			JFlex.Main.generate(lexFile);
