@@ -103,7 +103,7 @@
 		<dependency>
 			<groupId>de.jflex</groupId>
 			<artifactId>jflex</artifactId>
-			<version>1.4.3.idea</version>
+			<version>1.4.3.idea.11.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
