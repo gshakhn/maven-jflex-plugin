@@ -16,9 +16,9 @@ This plugin is dependent on IntelliJ's JFlex.jar. You can grab it by:
 
     git clone git://github.com/JetBrains/intellij-community.git
     cd intellij-community
-    git checkout idea/117.418
+    git checkout idea/117.798
     cd tools/lexer/jflex-1.4/lib
-    mvn install:install-file -Dfile=JFlex.jar -DgroupId=de.jflex -DartifactId=jflex -Dversion=1.4.3.idea.11.1.2 -Dpackaging=jar
+    mvn install:install-file -Dfile=JFlex.jar -DgroupId=de.jflex -DartifactId=jflex -Dversion=1.4.3.idea.11.1.3 -Dpackaging=jar
 
 You can then install the plugin locally by doing:
 
